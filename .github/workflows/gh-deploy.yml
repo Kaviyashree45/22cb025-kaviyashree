@@ -1,21 +1,45 @@
-name: hello world
-on: push
+name: Github Pages Deploy
+
+on:
+  push:
+    branches:
+      - "main"
 permissions:
   contents: write
-jobs: 
-  deploy-react-app:
+
+jobs:
+  build:
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+    
     steps:
-      - name: clone the repository
+      - name: Checkout 🛎️
         uses: actions/checkout@v4
-      - name: install npm packages
-        run: npm install
-      - name: run npm
-        run: npm run build
-      - name: test npm
-        run: npm run test
-      - name: deploy to github pages
-        uses: peaceiris/actions-gh-pages@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies 🔧
+        run: npm install
+
+      - name: Run the tests and generate coverage report 🔧
+        run: npm test -- --coverage
+
+      - name: Build 🔧
+        run: npm run build
+      
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: build # The folder the action should deploy.        
+
+
+
+
+
