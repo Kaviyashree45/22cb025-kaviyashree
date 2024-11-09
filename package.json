@@ -1,7 +1,7 @@
 {
   "name": "my-app",
   "version": "0.1.0",
-  "homepage":"https://github.com/Kaviyashree45/22cb025-kaviyashree.git",
+  "homepage":"https://kaviyashree45.github.io/22cb025-kaviyashree/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
